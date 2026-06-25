@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block body_class %}danger-page{% endblock %}
+
+{% block content %}
+<section class="page-hero danger-hero">
+    <div class="container narrow-container">
+        <p class="eyebrow">EXPERIMENT A</p>
+        <h1>SQL Injection에 취약한 로그인</h1>
+        <p>입력값을 문자열 연결로 SQL문에 직접 포함하는 교육용 예제입니다.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container narrow-container">
+        <div class="warning-box">
+            <strong>교육용 취약 코드</strong>
+            <p>이 구현 방식은 실제 서비스에서 사용하면 안 됩니다. 반드시 이 로컬 실습 환경에서만 확인하세요.</p>
+        </div>
+
+        <div class="form-layout">
+            <form class="login-card danger-form" method="post" action="{{ url_for('vulnerable_login') }}">
+                <div class="form-heading">
+                    <span class="method-chip danger-chip">문자열 연결 방식</span>
+                    <h2>로그인 입력</h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">사용자 이름</label>
+                    <input id="username" name="username" type="text" autocomplete="off" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">비밀번호</label>
+                    <input id="password" name="password" type="text" autocomplete="off" required>
+                    <small>실험 결과 비교를 위해 입력값을 그대로 표시합니다.</small>
+                </div>
+
+                <button class="button button-danger button-full" type="submit">취약한 방식으로 실행</button>
+            </form>
+
+            <aside class="code-card danger-code">
+                <p class="code-title">서버에서 만드는 SQL문</p>
+                <pre><code>query = (
+    "SELECT * FROM users "
+    "WHERE username = '" + username +
+    "' AND password = '" + password + "'"
+)</code></pre>
+                <p>
+                    따옴표나 주석 기호가 포함된 입력은 단순한 값에 머물지 않고,
+                    SQL문의 조건 구조에 영향을 줄 수 있습니다.
+                </p>
+            </aside>
+        </div>
+
+        <div class="experiment-tip">
+            <h2>비교 실험용 입력</h2>
+            <p>정상 로그인 확인 후 아래 값은 반드시 이 프로젝트 안에서만 시험하세요.</p>
+            <dl>
+                <div><dt>username</dt><dd><code>admin' --&#32;</code></dd></div>
+                <div><dt>password</dt><dd><code>wrong-password</code></dd></div>
+            </dl>
+        </div>
+    </div>
+</section>
+{% endblock %}

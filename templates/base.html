@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="SQL Injection과 Prepared Statement를 비교하는 교육용 로컬 실습">
+    <title>{{ page_title }} | SQL 보안 탐구실</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="{{ url_for('index') }}" aria-label="메인 페이지로 이동">
+                <span class="brand-mark" aria-hidden="true">SQL</span>
+                <span>
+                    <strong>SQL 보안 탐구실</strong>
+                    <small>Local Security Study</small>
+                </span>
+            </a>
+            <nav class="main-nav" aria-label="주요 메뉴">
+                <a href="{{ url_for('vulnerable_login') }}">취약 실습</a>
+                <a href="{{ url_for('safe_login') }}">안전 실습</a>
+                <a href="{{ url_for('about') }}">실험 설명</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>대학교 학과 그룹스터디용 교육 프로젝트</p>
+            <p><strong>로컬 환경 전용</strong> · 실제 서비스 공격에 사용하지 마세요.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-grid">
+        <div>
+            <p class="eyebrow">DATABASE SECURITY LAB</p>
+            <h1>같은 입력, 다른 처리.<br>SQL 보안의 차이를 직접 확인하세요.</h1>
+            <p class="hero-description">
+                이 웹 애플리케이션은 SQL Injection 취약점과 Prepared Statement 방어
+                기법을 비교하기 위한 교육용 로컬 실습 페이지입니다.
+            </p>
+            <div class="hero-actions">
+                <a class="button button-danger" href="{{ url_for('vulnerable_login') }}">
+                    취약한 방식 실습
+                </a>
+                <a class="button button-safe" href="{{ url_for('safe_login') }}">
+                    안전한 방식 실습
+                </a>
+            </div>
+        </div>
+
+        <aside class="lab-note" aria-label="실습 핵심 요약">
+            <span class="local-badge">127.0.0.1 전용</span>
+            <h2>이번 실험의 관찰 지점</h2>
+            <ol>
+                <li>문자열 연결 후 완성된 SQL문</li>
+                <li>placeholder가 유지된 SQL문 구조</li>
+                <li>같은 입력값에 대한 성공·실패 차이</li>
+            </ol>
+        </aside>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-heading">
+            <p class="eyebrow">PRACTICE MENU</p>
+            <h2>실습 메뉴</h2>
+            <p>먼저 정상 계정으로 확인한 뒤, 동일한 특수 입력을 두 페이지에 넣어 비교합니다.</p>
+        </div>
+
+        <div class="menu-grid">
+            <article class="menu-card danger-card">
+                <div class="card-number">01</div>
+                <p class="card-label">의도적으로 취약함</p>
+                <h3>문자열 연결 방식</h3>
+                <p>사용자 입력이 SQL문 안으로 직접 들어갈 때 쿼리 구조가 어떻게 달라지는지 확인합니다.</p>
+                <a href="{{ url_for('vulnerable_login') }}">취약한 로그인 방식 실습하기</a>
+            </article>
+
+            <article class="menu-card safe-card">
+                <div class="card-number">02</div>
+                <p class="card-label">권장 방어 방식</p>
+                <h3>Prepared Statement</h3>
+                <p>SQL문과 파라미터가 분리되어 입력이 명령이 아닌 데이터로 처리되는 과정을 확인합니다.</p>
+                <a href="{{ url_for('safe_login') }}">Prepared Statement 방식 실습하기</a>
+            </article>
+
+            <article class="menu-card neutral-card">
+                <div class="card-number">03</div>
+                <p class="card-label">보고서 참고 자료</p>
+                <h3>실험 원리와 보안 대책</h3>
+                <p>SQL Injection의 정의, 발생 원인, 방어 원리, 실제 서비스의 추가 대책을 정리했습니다.</p>
+                <a href="{{ url_for('about') }}">실험 설명 보기</a>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section comparison-section">
+    <div class="container">
+        <div class="comparison-strip">
+            <div>
+                <span class="comparison-tag danger-text">문자열 연결</span>
+                <code>... username = '사용자 입력' ...</code>
+                <p>입력값이 SQL 문법과 섞일 수 있음</p>
+            </div>
+            <div class="versus" aria-hidden="true">VS</div>
+            <div>
+                <span class="comparison-tag safe-text">Prepared Statement</span>
+                <code>... username = ? ...</code>
+                <p>입력값이 별도의 파라미터로 전달됨</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

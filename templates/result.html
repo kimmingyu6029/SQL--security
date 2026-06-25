@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% if method == "취약한 방식" %}
+    {% set is_vulnerable = true %}
+{% else %}
+    {% set is_vulnerable = false %}
+{% endif %}
+
+{% block body_class %}{{ "danger-page" if is_vulnerable else "safe-page" }}{% endblock %}
+
+{% block content %}
+<section class="page-hero {{ 'danger-hero' if is_vulnerable else 'safe-hero' }}">
+    <div class="container narrow-container">
+        <p class="eyebrow">EXPERIMENT RESULT</p>
+        <h1>로그인 시도 결과</h1>
+        <p>입력값, SQL 처리 방식, 실행 결과를 순서대로 확인하세요.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container narrow-container">
+        <div class="result-status {{ 'status-success' if success else 'status-fail' }}">
+            <span class="status-label">로그인 결과</span>
+            <strong>{{ "성공" if success else "실패" }}</strong>
+            {% if success and user %}
+                <p><code>{{ user["username"] }}</code> 계정과 일치했습니다. 역할: {{ user["role"] }}</p>
+            {% elif database_error %}
+                <p>{{ database_error }}</p>
+            {% else %}
+                <p>입력값과 일치하는 계정을 찾지 못했습니다.</p>
+            {% endif %}
+        </div>
+
+        <div class="result-card">
+            <h2>실험 기록</h2>
+            <div class="table-wrap">
+                <table class="result-table">
+                    <tbody>
+                        <tr>
+                            <th scope="row">사용된 방식</th>
+                            <td>
+                                <span class="method-chip {{ 'danger-chip' if is_vulnerable else 'safe-chip' }}">
+                                    {{ method }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">입력한 username</th>
+                            <td><code>{{ username }}</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">입력한 password</th>
+                            <td><code>{{ password }}</code></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ "실행된 SQL문" if is_vulnerable else "SQL문 구조" }}</th>
+                            <td><pre class="result-query"><code>{{ query }}</code></pre></td>
+                        </tr>
+                        {% if parameters %}
+                        <tr>
+                            <th scope="row">별도 전달 파라미터</th>
+                            <td>
+                                <ol class="parameter-list">
+                                    <li><strong>username:</strong> <code>{{ parameters[0] }}</code></li>
+                                    <li><strong>password:</strong> <code>{{ parameters[1] }}</code></li>
+                                </ol>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th scope="row">로그인 성공 여부</th>
+                            <td><strong>{{ "성공" if success else "실패" }}</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="analysis-card {{ 'danger-analysis' if is_vulnerable else 'safe-analysis' }}">
+            <p class="card-label">분석</p>
+            <h2>{{ "SQL문 구조 변조 가능" if is_vulnerable else "SQL문과 입력값 분리" }}</h2>
+            <p>{{ analysis }}</p>
+            {% if is_vulnerable %}
+                <p>
+                    화면의 완성된 SQL문에서 입력값 뒤의 조건이 주석 처리되었는지 확인해 보세요.
+                </p>
+            {% else %}
+                <p>
+                    화면의 SQL문에는 <code>?</code>가 그대로 있고 입력값은 아래 파라미터 목록으로
+                    분리되어 있다는 점이 핵심입니다.
+                </p>
+            {% endif %}
+        </div>
+
+        <div class="result-actions">
+            <a class="button button-secondary" href="{{ url_for('index') }}">메인으로</a>
+            {% if is_vulnerable %}
+                <a class="button button-safe" href="{{ url_for('safe_login') }}">같은 값을 안전한 방식에서 비교</a>
+            {% else %}
+                <a class="button button-danger" href="{{ url_for('vulnerable_login') }}">취약한 방식과 다시 비교</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
