@@ -16,11 +16,20 @@
 ## 2. 파일 구조
 
 ```text
-sql-injection-study/
+SQL--security/
+├─ .github/
+│  └─ workflows/
+│     └─ test.yml
 ├─ app.py
 ├─ init_db.py
 ├─ requirements.txt
+├─ requirements-dev.txt
 ├─ README.md
+├─ TESTING.md
+├─ CHANGELOG.md
+├─ VERSION
+├─ tests/
+│  └─ test_app.py
 ├─ templates/
 │  ├─ base.html
 │  ├─ index.html
@@ -33,6 +42,9 @@ sql-injection-study/
 ```
 
 `python init_db.py`를 실행하면 프로젝트 폴더에 `study.db`가 생성됩니다.
+
+프로젝트 문서는 [테스트 안내](TESTING.md)와 [변경 기록](CHANGELOG.md)에서
+추가로 확인할 수 있습니다.
 
 ## 3. 필요한 패키지 설치와 실행 방법
 
