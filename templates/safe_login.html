@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block body_class %}safe-page{% endblock %}
+
+{% block content %}
+<section class="page-hero safe-hero">
+    <div class="container narrow-container">
+        <p class="eyebrow">EXPERIMENT B</p>
+        <h1>Prepared Statement를 적용한 로그인</h1>
+        <p>SQL문 구조와 입력값을 분리해 입력을 데이터로 처리하는 안전한 예제입니다.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container narrow-container">
+        <div class="safe-info-box">
+            <strong>권장되는 기본 방어 방식</strong>
+            <p><code>?</code> placeholder에 값이 별도로 전달되므로 입력값이 SQL 문법으로 해석되지 않습니다.</p>
+        </div>
+
+        <div class="form-layout">
+            <form class="login-card safe-form" method="post" action="{{ url_for('safe_login') }}">
+                <div class="form-heading">
+                    <span class="method-chip safe-chip">Prepared Statement</span>
+                    <h2>로그인 입력</h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">사용자 이름</label>
+                    <input id="username" name="username" type="text" autocomplete="off" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">비밀번호</label>
+                    <input id="password" name="password" type="text" autocomplete="off" required>
+                    <small>취약한 페이지와 같은 값을 입력해 결과를 비교하세요.</small>
+                </div>
+
+                <button class="button button-safe button-full" type="submit">안전한 방식으로 실행</button>
+            </form>
+
+            <aside class="code-card safe-code">
+                <p class="code-title">SQL문과 파라미터 분리</p>
+                <pre><code>query = (
+    "SELECT * FROM users "
+    "WHERE username = ? "
+    "AND password = ?"
+)
+cursor.execute(
+    query,
+    (username, password)
+)</code></pre>
+                <p>
+                    데이터베이스 드라이버가 SQL문 구조를 먼저 유지한 상태에서
+                    사용자 입력을 각 placeholder의 값으로 처리합니다.
+                </p>
+            </aside>
+        </div>
+
+        <div class="experiment-tip safe-tip">
+            <h2>같은 입력으로 재실험</h2>
+            <p>취약한 페이지에서 사용한 값을 그대로 넣고 로그인 결과와 표시된 SQL 구조를 비교하세요.</p>
+            <dl>
+                <div><dt>username</dt><dd><code>admin' --&#32;</code></dd></div>
+                <div><dt>password</dt><dd><code>wrong-password</code></dd></div>
+            </dl>
+        </div>
+    </div>
+</section>
+{% endblock %}

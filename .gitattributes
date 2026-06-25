@@ -1,0 +1,10 @@
+* text=auto
+.gitattributes text eol=lf
+.gitignore text eol=lf
+VERSION text eol=lf
+requirements*.txt text eol=lf
+*.py text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.md text eol=lf
+*.yml text eol=lf

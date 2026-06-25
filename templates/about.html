@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-hero neutral-hero">
+    <div class="container narrow-container">
+        <p class="eyebrow">STUDY NOTES</p>
+        <h1>실험 설명과 보고서 핵심 정리</h1>
+        <p>실습에서 관찰한 현상을 원인, 방어 원리, 실제 서비스 대책으로 연결합니다.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container narrow-container">
+        <div class="theory-list">
+            <article class="theory-item">
+                <span>01</span>
+                <div>
+                    <h2>SQL Injection이란 무엇인가?</h2>
+                    <p>
+                        애플리케이션이 사용자 입력을 안전하게 분리하지 않고 SQL문에 포함할 때,
+                        공격자가 입력을 통해 원래 쿼리의 조건이나 구조를 바꾸는 취약점입니다.
+                    </p>
+                </div>
+            </article>
+
+            <article class="theory-item">
+                <span>02</span>
+                <div>
+                    <h2>문자열 연결 방식이 위험한 이유</h2>
+                    <p>
+                        프로그램이 입력값과 SQL 문법을 하나의 문자열로 합치면 데이터와 명령의
+                        경계가 사라집니다. 따옴표, 논리 연산자, 주석 기호 등이 SQL 문법으로
+                        해석될 수 있습니다.
+                    </p>
+                </div>
+            </article>
+
+            <article class="theory-item">
+                <span>03</span>
+                <div>
+                    <h2>Prepared Statement란 무엇인가?</h2>
+                    <p>
+                        SQL문의 구조를 placeholder와 함께 준비하고, 실제 값은 별도의 파라미터로
+                        전달하는 실행 방식입니다. Python의 SQLite에서는 <code>?</code>를
+                        placeholder로 사용할 수 있습니다.
+                    </p>
+                </div>
+            </article>
+
+            <article class="theory-item">
+                <span>04</span>
+                <div>
+                    <h2>SQL Injection을 방어하는 원리</h2>
+                    <p>
+                        데이터베이스 드라이버가 SQL문과 파라미터를 구분해 처리합니다. 따라서
+                        입력값에 SQL처럼 보이는 문자가 포함되어도 조건문이나 명령으로 합쳐지지
+                        않고 하나의 데이터 값으로 비교됩니다.
+                    </p>
+                </div>
+            </article>
+        </div>
+
+        <section class="security-checklist">
+            <div class="section-heading">
+                <p class="eyebrow">REAL SERVICE CHECKLIST</p>
+                <h2>실제 서비스에서 추가로 필요한 보안 대책</h2>
+            </div>
+            <ul>
+                <li><strong>Prepared Statement 사용</strong><span>모든 사용자 입력을 파라미터로 전달</span></li>
+                <li><strong>입력값 검증</strong><span>길이, 형식, 허용 범위를 서버에서 검사</span></li>
+                <li><strong>에러 메시지 노출 제한</strong><span>DB 구조나 내부 경로가 드러나지 않게 처리</span></li>
+                <li><strong>DB 계정 최소 권한 원칙</strong><span>기능 수행에 필요한 권한만 부여</span></li>
+                <li><strong>비밀번호 해싱 저장</strong><span>Argon2 또는 bcrypt 같은 검증된 방식 사용</span></li>
+                <li><strong>로그인 시도 횟수 제한</strong><span>반복 대입과 자동화된 공격을 완화</span></li>
+            </ul>
+        </section>
+
+        <div class="report-summary">
+            <h2>보고서 결론 예시</h2>
+            <blockquote>
+                동일한 입력값을 사용했지만 문자열 연결 방식에서는 입력이 SQL문의 일부로
+                해석될 수 있었고, Prepared Statement 방식에서는 SQL문 구조와 값이 분리되어
+                입력 전체가 단순한 데이터로 처리되었다.
+            </blockquote>
+        </div>
+    </div>
+</section>
+{% endblock %}
